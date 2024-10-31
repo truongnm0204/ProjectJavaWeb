@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
             if(user==null){
                 user="";
                // goi trang login, do chua login
-               // response.sendRedirect("HTML/login.html");
+               response.sendRedirect("HTML/login.html");
             }
             if(user.equals("")){
                 out.print("pls, input username");

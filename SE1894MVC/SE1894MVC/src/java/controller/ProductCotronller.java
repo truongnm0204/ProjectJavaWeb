@@ -24,15 +24,6 @@ import java.sql.ResultSet;
 @WebServlet(name = "ProductCotronller", urlPatterns = {"/ProductURL"})
 public class ProductCotronller extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -63,7 +54,6 @@ public class ProductCotronller extends HttpServlet {
                     dispath(request, response, "/JSP/updateProduct.jsp");
                 } else {
                     //if (submit != null) {
-                    
                     String ProductName = request.getParameter("ProductName");
                     String SupplierID = request.getParameter("SupplierID");
                     String CategoryID = request.getParameter("CategoryID");

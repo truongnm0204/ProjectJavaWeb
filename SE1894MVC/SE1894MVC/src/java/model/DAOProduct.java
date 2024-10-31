@@ -204,7 +204,6 @@ public class DAOProduct extends DBConnect {
                         CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock,
                         UnitsOnOrder, ReorderLevel, Discontinued);
                 System.out.println(pro);
-
             }
 
         } catch (SQLException ex) {

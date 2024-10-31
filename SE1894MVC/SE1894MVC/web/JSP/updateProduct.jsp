@@ -16,13 +16,13 @@
          <% ResultSet rsSup=(ResultSet)request.getAttribute("rsSup");
           ResultSet rsCate=(ResultSet)request.getAttribute("rsCate");
           Vector<Product> vector=(Vector<Product>)request.getAttribute("vector");
-          Product product=vector.get(0);
+          Product product= vector.get(0);
           %>
         <form action="ProductURL" method="post">
             <input type="hidden" name="service" value="updateProduct">
             <table>
                                
-                <caption>Insert Product</caption>
+                <caption>Update Product</caption>
                 <tr>
                     <td><label for="ProductID">ProductID</label></td>
                     <td><input type="text" name="ProductID" id="ProductID" readonly value="<%=product.getProductID()%>"></td>

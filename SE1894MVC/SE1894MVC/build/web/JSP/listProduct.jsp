@@ -24,7 +24,7 @@
             </p>
         </form>
         <p><a href="ProductURL?service=insertProduct">insert products</a></p>
-         <p align="right"><a href="CartURL?service=showCart">show Cart</a></p>
+        <p align="right"><a href="CartURL?service=showCart">show Cart</a></p>
         <table>
             <caption><%=title%></caption>
             <tr>
