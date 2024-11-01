@@ -1,11 +1,12 @@
-
 package model;
 
 import entity.OrderDetails;
+import entity.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,24 +96,28 @@ public class DAOOrderDetails extends DBConnect {
         return n;
     }
 
-    public void displayyAll(String sql) {
-        ResultSet rs = null;
-
+    public Vector<OrderDetails> getProducts(String sql) {
+        Vector<OrderDetails> vector = new Vector<OrderDetails>();
         try {
-            Statement state = conn.createStatement();
-            rs = state.executeQuery(sql);
-
+            //default:ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY
+            //ResultSet.TYPE_SCROLL_SENSITIVE: ThreadSafe
+            Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
-                int orderID = rs.getInt(1);
-                int productID = rs.getInt(2);
-                double unitPrice = rs.getDouble(3);
-                int quantity = rs.getInt(4);
-                int discount = rs.getInt(5);
-                OrderDetails orderDetails = new OrderDetails(orderID, productID, unitPrice, quantity, discount);
-                System.out.println(orderDetails);
+                int OrderID = rs.getInt(1);
+                int ProductID = rs.getInt(2);
+                double UnitPrice = rs.getDouble(3);
+                int Quantity = rs.getInt(4);
+                double Discount = rs.getDouble(5);
+                OrderDetails od = new OrderDetails(OrderID, ProductID, UnitPrice, Quantity, Discount);
+                vector.add(od);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DAOOrderDetails.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return vector;
     }
+
+    
 }

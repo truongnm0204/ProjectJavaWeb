@@ -6,13 +6,25 @@ package entity;
 
 /**
  *
- * @author ADMIN
+ * @author PC
  */
 public class Employee {
-
     private int EmployeeID;
-    private String LastName, FirstName, Title, TitleOfCourtesy, BirthDate, HireDate,
-            Address, City, Region, PostalCode, Country, HomePhone, Extension, Photo, Notes;
+    private String LastName;
+    private String FirstName;
+    private String Title;
+    private String TitleOfCourtesy;
+    private String BirthDate;
+    private String HireDate;
+    private String Address;
+    private String City;
+    private String Region;
+    private String PostalCode;
+    private String Country;
+    private String HomePhone;
+    private String Extension;
+    private String Photo;
+    private String Notes;
     private int ReportsTo;
     private String PhotoPath;
 
@@ -182,6 +194,11 @@ public class Employee {
 
     public void setPhotoPath(String PhotoPath) {
         this.PhotoPath = PhotoPath;
+    }
+
+    @Override
+    public String toString() {
+        return " Employee "+ FirstName;
     }
     
 }

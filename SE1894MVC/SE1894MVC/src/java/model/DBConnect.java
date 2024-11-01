@@ -18,20 +18,23 @@ public class DBConnect {
 
     public DBConnect(String URL, String userName, String password) {
         try {
-            //        URL: String connection: server, database
-//        userName,password: account of SQLServer
-//        Call driver
+            //URL: String connection: server, database
+            // userName, password: account of SQLServer
+            //Call driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            //call connection
-            conn = DriverManager.getConnection(URL, userName, password);
-            System.out.println("connected");
+            try {
+                //Call connect
+                conn = DriverManager.getConnection(URL, userName, password);
+                System.out.println("connected");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                //Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
             //Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
     private String URL = "";
 
@@ -43,15 +46,10 @@ public class DBConnect {
     public ResultSet getData(String sql) {
         ResultSet rs = null;
         try {
-            rs = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE).executeQuery(sql);
+            rs = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return rs;
-    }
-
-    public static void main(String[] args) {
-        new DBConnect();
     }
 }
