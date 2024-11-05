@@ -6,118 +6,113 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DAOOrderDetails extends DBConnect {
-
-    public int insertOrderDetails(OrderDetails od) {
-        int n = 0;
-        String sql = "INSERT INTO [dbo].[Order Details]\n"
-                + "           ([OrderID]\n"
-                + "           ,[ProductID]\n"
-                + "           ,[UnitPrice]\n"
-                + "           ,[Quantity]\n"
-                + "           ,[Discount])\n"
-                + "     VALUES(" + od.getOrderID() + "," + od.getProductID() + "," + od.getUnitPrice() + ","
-                + od.getQuantity() + "," + od.getDiscount() + "')";
-        System.out.println(sql);
+    protected PreparedStatement statement;
+    
+    public List<OrderDetails> findAll() {
+        List<OrderDetails> listFound = new ArrayList<>();
         try {
-            Statement state = conn.createStatement();
-            n = state.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOOrderDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return n;
-    }
+            //chuan bi cau lenh Sql
+            String sql = "SELECT * FROM [dbo].[Order Details]";
+            // tao ra doi tuong sql
 
-    public int addOrderDetails(OrderDetails od) {
-        int n = 0;
-        String sql = "INSERT INTO [dbo].[Order Details]\n"
-                + "           ([OrderID]\n"
-                + "           ,[ProductID]\n"
-                + "           ,[UnitPrice]\n"
-                + "           ,[Quantity]\n"
-                + "           ,[Discount])\n"
-                + "     VALUES(?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement pre = conn.prepareStatement(sql);
+            statement = conn.prepareStatement(sql);
 
-            pre.setInt(1, od.getOrderID());
-            pre.setInt(2, od.getProductID());
-            pre.setDouble(3, od.getUnitPrice());
-            pre.setInt(4, od.getQuantity());
-            pre.setDouble(5, od.getDiscount());
-
-            n = pre.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOOrderDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return n;
-    }
-
-    public int updateOrderDetails(OrderDetails od) {
-        int n = 0;
-        String sql = "UPDATE [dbo].[Order Details]\n"
-                + "   SET [OrderID] = ?\n"
-                + "      ,[ProductID] = ?\n"
-                + "      ,[UnitPrice] = ?\n"
-                + "      ,[Quantity] = ?\n"
-                + "      ,[Discount] = ?\n"
-                + " WHERE OrderID = ?";
-
-        try {
-            PreparedStatement pre = conn.prepareStatement(sql);
-
-            pre.setInt(1, od.getOrderID());
-            pre.setInt(2, od.getProductID());
-            pre.setDouble(3, od.getUnitPrice());
-            pre.setInt(4, od.getQuantity());
-            pre.setDouble(5, od.getDiscount());
-
-            n = pre.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOOrderDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return n;
-    }
-
-    public int removeOrderDetails(int od) {
-        int n = 0;
-        String sql = "delete from Order Details where OrderID = " + od;
-        try {
-            Statement state = conn.createStatement();
-            n = state.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOOrderDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return n;
-    }
-
-    public Vector<OrderDetails> getProducts(String sql) {
-        Vector<OrderDetails> vector = new Vector<OrderDetails>();
-        try {
-            //default:ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY
-            //ResultSet.TYPE_SCROLL_SENSITIVE: ThreadSafe
-            Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = statement.executeQuery(sql);
-            while (rs.next()) {
-                int OrderID = rs.getInt(1);
-                int ProductID = rs.getInt(2);
-                double UnitPrice = rs.getDouble(3);
-                int Quantity = rs.getInt(4);
-                double Discount = rs.getDouble(5);
-                OrderDetails od = new OrderDetails(OrderID, ProductID, UnitPrice, Quantity, Discount);
-                vector.add(od);
+            //set parameter
+            //thuc thi cau lenh
+            resultSet = statement.executeQuery();
+            //tra ve ket qua
+            while (resultSet.next()) {
+               int OrderID = resultSet.getInt("OrderID");
+               int ProductID = resultSet.getInt("ProductID");
+               double UnitPrice = resultSet.getDouble("UnitPrice");
+               int Quantity = resultSet.getInt("Quantity");
+               double Discount = resultSet.getDouble("Discount");
+               OrderDetails od = new OrderDetails();
+               od.setOrderID(OrderID);
+               od.setProductID(ProductID);
+               od.setUnitPrice(UnitPrice);
+               od.setQuantity(Quantity);
+               od.setDiscount(Discount);
+                listFound.add(od);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getStackTrace());;
         }
-        return vector;
+        return listFound;
     }
 
-    
+    public List<OrderDetails> searchByOrderID(String search) {
+        List<OrderDetails> listFound = new ArrayList<>();
+        try {
+            //chuan bi cau lenh Sql
+            String sql = "SELECT * FROM [dbo].[Order Details] where OrderID = ?";
+            // tao ra doi tuong sql
+
+            statement = conn.prepareStatement(sql);
+
+            //set parameter
+            statement.setObject(1, search);
+            //thuc thi cau lenh
+            resultSet = statement.executeQuery();
+            //tra ve ket qua
+            while (resultSet.next()) {
+               int OrderID = resultSet.getInt("OrderID");
+               int ProductID = resultSet.getInt("ProductID");
+               double UnitPrice = resultSet.getDouble("UnitPrice");
+               int Quantity = resultSet.getInt("Quantity");
+               double Discount = resultSet.getDouble("Discount");
+               OrderDetails od = new OrderDetails();
+               od.setOrderID(OrderID);
+               od.setProductID(ProductID);
+               od.setUnitPrice(UnitPrice);
+               od.setQuantity(Quantity);
+               od.setDiscount(Discount);
+               listFound.add(od);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getStackTrace());;
+        }
+        return listFound;
+    }
+
+    public void insert(OrderDetails od) {
+            //ket noi voi DB
+        //tao cau lenh SQL
+        String sql = "INSERT INTO [dbo].[Order Details]\n" +
+"           ([OrderID]\n" +
+"           ,[ProductID]\n" +
+"           ,[UnitPrice]\n" +
+"           ,[Quantity]\n" +
+"           ,[Discount])\n" +
+"     VALUES\n" +
+"           (?\n" +
+"           ,?\n" +
+"           ,?\n" +
+"           ,?\n" +
+"           ,?)";
+        try {
+            //tao doi tuong prepared statement ( them generated key vao tham so thu 2)
+            statement = conn.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            //set parameter
+            statement.setObject(1, od.getOrderID());
+            statement.setObject(2, od.getProductID());
+            statement.setObject(3, od.getUnitPrice());
+            statement.setObject(4, od.getQuantity());
+            statement.setObject(5, od.getDiscount());
+            //thuc thi cau lenh
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -17,42 +17,69 @@ import java.util.Enumeration;
 import java.util.Vector;
 import model.DAOCart;
 
+/**
+ *
+ * @author 84968
+ * 
+ * 
+ */
 @WebServlet(name = "CartController", urlPatterns = {"/CartURL"})
 public class CartController extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DAOCart dao=new DAOCart();
-        HttpSession session=request.getSession(true);
+        DAOCart dao = new DAOCart();
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             String service = request.getParameter("service");
-            if(service.equals("add2cart")){
-                int pid=Integer.parseInt(request.getParameter("pid"));
-                Cart newCart=dao.getCart(pid);
+            if (service.equals("addToCart")) {
+                int pid = Integer.parseInt(request.getParameter("pid"));
+                Cart newcart = dao.getCart(pid);
                 //check pid
-                if(session.getAttribute(pid+"")==null){ //firstTime
-                    newCart.setQuantity(1);
-                    session.setAttribute(pid+"", newCart);
-                }else{ //second...
-                    Cart oldCart=(Cart)session.getAttribute(pid+"");
-                    oldCart.setQuantity(oldCart.getQuantity()+1);
-                    session.setAttribute(pid+"", oldCart);
-                 }
-                response.sendRedirect("ProductURL");
-            }
-            if(service.equals("showCart")){
-                Vector<Cart> vector=new Vector<Cart>();
-                //lay cot key
-                Enumeration<String> enu=session.getAttributeNames();
-                while(enu.hasMoreElements()){
-                    String pid=enu.nextElement(); // pid ~ key
-                    Cart cart=(Cart)session.getAttribute(pid+"");
-                    vector.add(cart);
+                if (session.getAttribute(pid + "") == null) {// first time 
+                    newcart.setQuantity(1);
+                    session.setAttribute(pid + "", newcart);
+                } else {
+                    Cart oldCart = (Cart) session.getAttribute(pid + "");
+                    oldCart.setQuantity(oldCart.getQuantity() + 1);
+                    session.setAttribute(pid + "", oldCart);
                 }
-                request.setAttribute("vectorCart",vector);
-                request.getRequestDispatcher("/JSP/showCart.jsp").forward(request, response);
+                response.sendRedirect("ProductURL");
+
             }
+
+            if (service.equals("showCart")) {
+                Vector<Cart> vector = new Vector<>();
+                // lay cot key
+                Enumeration<String> enu = session.getAttributeNames();
+
+                while (enu.hasMoreElements()) {
+                    String pid = enu.nextElement();// pid ~ key
+                    Cart cart = (Cart) session.getAttribute(pid + "");
+                    vector.add(cart);
+
+                }
+                request.setAttribute("vectorCart", vector);
+                request.getRequestDispatcher("JSP/showCart.jsp").forward(request, response);
+
+            }
+
+            if (service.equals("removeCart")) {
+                int pid = Integer.parseInt(request.getParameter("pid"));
+                Cart cart = (Cart) session.getAttribute(pid + "");
+
+                if (cart != null) {
+                    if (cart.getQuantity() > 1) {
+                        cart.setQuantity(cart.getQuantity() - 1);
+                        session.setAttribute(pid + "", cart); 
+                    } else {                       
+                        session.removeAttribute(pid + "");
+                    }
+                }                
+                response.sendRedirect("CartURL?service=showCart");
+            }
+
         }
     }
 

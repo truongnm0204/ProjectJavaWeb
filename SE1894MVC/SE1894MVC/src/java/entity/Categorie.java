@@ -6,19 +6,39 @@ package entity;
 
 /**
  *
- * @author PC
+ * @author 84968
  */
-public class Categories {
+public class Categorie {
 
     private int CategoryID;
     private String CategoryName;
     private String Description;
     private String Picture;
+    private boolean Discontinue;
 
-    public Categories() {
+    public boolean isDiscontinue() {
+        return Discontinue;
     }
 
-    public Categories(int CategoryID, String CategoryName, String Description, String Picture) {
+    public void setDiscontinue(boolean Discontinue) {
+        this.Discontinue = Discontinue;
+    }
+
+    public Categorie(int CategoryID, String CategoryName, String Description, String Picture, boolean Discontinue) {
+        this.CategoryID = CategoryID;
+        this.CategoryName = CategoryName;
+        this.Description = Description;
+        this.Picture = Picture;
+        this.Discontinue = Discontinue;
+    }
+    
+    
+    
+
+    public Categorie() {
+    }
+
+    public Categorie(int CategoryID, String CategoryName, String Description, String Picture) {
         this.CategoryID = CategoryID;
         this.CategoryName = CategoryName;
         this.Description = Description;
@@ -57,4 +77,8 @@ public class Categories {
         this.Picture = Picture;
     }
 
+    
+    
+    
+    
 }

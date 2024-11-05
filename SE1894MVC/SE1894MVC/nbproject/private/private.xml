@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/web/JSP/insertOrderDetails.jsp</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/web/JSP/listOrderDetails.jsp</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/src/java/model/DAOOrderDetails.java</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/src/java/entity/OrderDetails.java</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/src/java/model/DBConnect.java</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/src/java/controller/OrdersDetailsController.java</file>
+            <file>file:/D:/JAVAWEB/LocationWebFolder/ProjectPRJ/SE1894MVC/SE1894MVC/web/JSP/updateOrderDetails.jsp</file>
+        </group>
     </open-files>
 </project-private>

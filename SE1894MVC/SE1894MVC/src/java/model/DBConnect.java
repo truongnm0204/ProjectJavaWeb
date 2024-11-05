@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 public class DBConnect {
 
     public Connection conn = null;
+    protected ResultSet resultSet;
 
     public DBConnect(String URL, String userName, String password) {
         try {
