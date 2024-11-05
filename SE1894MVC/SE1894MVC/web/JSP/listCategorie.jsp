@@ -13,7 +13,7 @@
     </head>
     <body>
          <%
-            Vector<Categories> vector = (Vector<Categories>) request.getAttribute("DataCategorie");
+            Vector<Categorie> vector = (Vector<Categorie>) request.getAttribute("DataCategorie");
             String title = (String) request.getAttribute("titleTable");
 
         %>
@@ -29,7 +29,7 @@
             </p>
         </form>
          
-          <p><a href="CategrieURL?service=insertCategories">insert Category</a></p>
+          <p><a href="CategrieURL?service=insertCategorie">insert Category</a></p>
           
           <p align="right">
             <%
